@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecommerce-app
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+
+  webserver:
+    image: nginx:alpine
+    container_name: ecommerce-nginx
+    ports:
+      - "8088:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+
+  db:
+    image: postgres:16
+    container_name: ecommerce-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: simple_ecommerce_web
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+    - "5440:5432"
