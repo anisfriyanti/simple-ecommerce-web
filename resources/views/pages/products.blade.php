@@ -20,8 +20,16 @@
 
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition">
 
-                <div class="h-64 bg-gray-100">
-                </div>
+                {{-- <div class="h-64 bg-gray-100"> --}}
+                                    <img
+                    src="{{ asset('storage/' . $product->image) }}"
+                    class="
+                        w-full
+                        h-80
+                        object-cover
+                    "
+                >
+                                {{-- </div> --}}
 
                 <div class="p-5">
 

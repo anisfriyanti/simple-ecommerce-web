@@ -99,6 +99,11 @@ Route::middleware([
         '/payments/{payment}/approve',
         [AdminController::class, 'approvePayment']
     );
+    // other admin routes...
+Route::resource(
+    '/products',
+    \App\Http\Controllers\Admin\ProductController::class
+);
 
 });
 require __DIR__.'/auth.php';
