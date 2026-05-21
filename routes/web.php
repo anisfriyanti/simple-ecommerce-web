@@ -99,6 +99,25 @@ Route::middleware([
         '/payments/{payment}/approve',
         [AdminController::class, 'approvePayment']
     );
+    // other admin routes...
+Route::resource(
+    '/products',
+    \App\Http\Controllers\Admin\ProductController::class
+);
+//categories
+Route::resource(
+    '/categories',
+    \App\Http\Controllers\Admin\CategoryController::class
+);
+//orders
+Route::get(
+    '/orders',
+    [\App\Http\Controllers\Admin\OrderController::class, 'index']
+);
 
+Route::post(
+    '/orders/{transaction}/status',
+    [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus']
+);
 });
 require __DIR__.'/auth.php';
