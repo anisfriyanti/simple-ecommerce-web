@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,37 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
 {
-    $products = Product::with('category')
+    $query = Product::query();
+
+    // FILTER CATEGORY
+    if ($request->category) {
+
+        $query->whereHas(
+            'category',
+            function ($q) use ($request) {
+
+                $q->where(
+                    'slug',
+                    $request->category
+                );
+            }
+        );
+    }
+
+    $products = $query
         ->latest()
         ->get();
 
+    $categories = Category::all();
+
     return view(
         'pages.products',
-        compact('products')
+        compact(
+            'products',
+            'categories'
+        )
     );
 }
 

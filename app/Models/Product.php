@@ -8,6 +8,7 @@ use App\Models\Category;
 
 class Product extends Model
 {
+      use SoftDeletes;
   protected $fillable = [
     'category_id',
     'name',
@@ -27,6 +28,12 @@ class Product extends Model
 public function category()
 {
     return $this->belongsTo(Category::class);
+}
+public function products()
+{
+    return $this->hasMany(
+        Product::class
+    );
 }
 
 }

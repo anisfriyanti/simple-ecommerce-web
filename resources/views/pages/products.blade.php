@@ -2,26 +2,110 @@
 
 @section('content')
 
-<div class="max-w-7xl mx-auto px-6 py-10">
+<div class="
+    max-w-7xl
+    mx-auto
+    px-6
+    py-16
+">
 
-    <div class="mb-10">
-        <h1 class="text-4xl font-bold">
-            Our Products
-        </h1>
+    <div class="
+        flex
+        justify-between
+        items-center
+        mb-12
+    ">
 
-        <p class="text-gray-500 mt-2">
-            Discover our latest beauty collection.
-        </p>
+        <div>
+
+            <h1 class="
+                text-5xl
+                font-bold
+            ">
+                Our Products
+            </h1>
+
+            <p class="
+                text-gray-500
+                mt-3
+            ">
+                Discover our curated beauty collection.
+            </p>
+
+        </div>
+
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {{-- CATEGORY FILTER --}}
+    <div class="
+        flex
+        gap-4
+        mb-10
+        flex-wrap
+    ">
+
+        <a
+            href="/products"
+            class="
+                px-5
+                py-2
+                rounded-full
+                border
+                hover:bg-black
+                hover:text-white
+                transition
+            "
+        >
+            All
+        </a>
+
+        @foreach($categories as $category)
+
+            <a
+                href="/products?category={{ $category->slug }}"
+                class="
+                    px-5
+                    py-2
+                    rounded-full
+                    border
+                    hover:bg-black
+                    hover:text-white
+                    transition
+                "
+            >
+                {{ $category->name }}
+            </a>
+
+        @endforeach
+
+    </div>
+
+    {{-- PRODUCT GRID --}}
+    <div class="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-3
+        gap-8
+    ">
 
         @foreach($products as $product)
 
-            <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition">
+            <a
+                href="/products/{{ $product->slug }}"
+                class="
+                    block
+                    bg-white
+                    rounded-3xl
+                    overflow-hidden
+                    shadow-sm
+                    hover:shadow-xl
+                    transition
+                "
+            >
 
-                {{-- <div class="h-64 bg-gray-100"> --}}
-                                    <img
+                {{-- PRODUCT IMAGE --}}
+                <img
                     src="{{ asset('storage/' . $product->image) }}"
                     class="
                         w-full
@@ -29,57 +113,68 @@
                         object-cover
                     "
                 >
-                                {{-- </div> --}}
 
-                <div class="p-5">
+                {{-- PRODUCT CONTENT --}}
+                <div class="p-6">
 
-                    <span class="text-sm text-pink-500 font-medium">
+                    {{-- CATEGORY --}}
+                    <p class="
+                        text-sm
+                        text-pink-500
+                        font-semibold
+                        mb-3
+                    ">
                         {{ $product->category->name }}
-                    </span>
-
-                    <h3 class="text-xl font-semibold mt-2">
-                        {{ $product->name }}
-                    </h3>
-
-                    <p class="text-gray-500 text-sm mt-2">
-                        {{ $product->short_description }}
                     </p>
 
-                    <div class="mt-5 flex items-center justify-between">
+                    {{-- PRODUCT NAME --}}
+                    <h2 class="
+                        text-2xl
+                        font-bold
+                    ">
+                        {{ $product->name }}
+                    </h2>
 
-                        <strong class="text-lg">
+                    {{-- DESCRIPTION --}}
+                    <p class="
+                        text-gray-500
+                        mt-3
+                        line-clamp-2
+                    ">
+                        {{ $product->description }}
+                    </p>
+
+                    {{-- PRICE --}}
+                    <div class="
+                        mt-6
+                        flex
+                        justify-between
+                        items-center
+                    ">
+
+                        <p class="
+                            text-2xl
+                            font-bold
+                        ">
                             Rp {{ number_format($product->price) }}
-                        </strong>
+                        </p>
 
-                        {{-- <button class="
-                            bg-black
-                            text-white
+                        <div class="
                             px-4
                             py-2
                             rounded-xl
-                            hover:opacity-80
+                            bg-black
+                            text-white
+                            text-sm
                         ">
-                            View
-                        </button> --}}
-                        <a
-                            href="/products/{{ $product->slug }}"
-                            class="
-                                bg-black
-                                text-white
-                                px-4
-                                py-2
-                                rounded-xl
-                                hover:opacity-80
-                            "
-                        >
-                            View
-                        </a>
+                            View Product
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </a>
 
         @endforeach
 

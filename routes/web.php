@@ -104,6 +104,10 @@ Route::resource(
     '/products',
     \App\Http\Controllers\Admin\ProductController::class
 );
-
+//categories
+Route::resource(
+    '/categories',
+    \App\Http\Controllers\Admin\CategoryController::class
+);
 });
 require __DIR__.'/auth.php';
