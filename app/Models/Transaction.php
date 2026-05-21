@@ -38,5 +38,4 @@ public function payment()
 {
     return $this->hasOne(Payment::class);
 }
-
 }
