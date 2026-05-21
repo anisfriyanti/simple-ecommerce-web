@@ -24,6 +24,7 @@ class Transaction extends Model
     'payment_method',
 
     'paid_at',
+    'snap_token',
 ];
 public function items()
 {

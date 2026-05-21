@@ -2,30 +2,28 @@
 
 @section('content')
 
-<div class="
-    max-w-7xl
-    mx-auto
-    px-6
-    py-16
-">
+<div class="mx-auto max-w-7xl px-6 py-16">
 
-    <div class="
-        mb-12
-    ">
+    <div class="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
 
-        <h1 class="
-            text-5xl
-            font-bold
-        ">
+        <div>
+        <span class="inline-flex rounded-full border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-500 shadow-sm">
+            Admin dashboard
+        </span>
+
+        <h1 class="mt-5 text-5xl font-black tracking-tight text-slate-900">
             Order Management
         </h1>
 
-        <p class="
-            text-gray-500
-            mt-3
-        ">
+        <p class="mt-3 text-slate-500">
             Manage customer transactions and shipping.
         </p>
+        </div>
+
+        <div class="rounded-[28px] border border-white/70 bg-white/80 px-6 py-5 shadow-sm backdrop-blur">
+            <p class="text-sm text-slate-500">Total orders</p>
+            <p class="mt-1 text-3xl font-black text-slate-900">{{ $transactions->count() }}</p>
+        </div>
 
     </div>
 
@@ -33,68 +31,36 @@
 
         @foreach($transactions as $transaction)
 
-            <div class="
-                border
-                rounded-3xl
-                p-8
-                bg-white
-                shadow-sm
-            ">
+            <div class="rounded-[32px] border border-white/70 bg-white p-8 shadow-sm">
 
-                <div class="
-                    flex
-                    justify-between
-                    items-start
-                ">
+                <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
 
                     <div>
 
-                        <h2 class="
-                            text-2xl
-                            font-bold
-                        ">
+                        <h2 class="text-2xl font-bold text-slate-900">
                             {{ $transaction->invoice_number }}
                         </h2>
 
-                        <p class="
-                            text-gray-500
-                            mt-2
-                        ">
+                        <p class="mt-2 text-slate-500">
                             Customer:
                             {{ $transaction->user->name }}
                         </p>
 
-                        <p class="
-                            text-gray-500
-                            mt-2
-                        ">
+                        <p class="mt-2 text-slate-500">
                             Total:
                             Rp {{ number_format($transaction->grand_total) }}
                         </p>
 
                     </div>
 
-                    <div class="
-                        text-right
-                    ">
+                    <div class="flex flex-wrap gap-3 text-right">
 
-                        <p class="
-                            text-sm
-                            text-gray-500
-                        ">
-                            Payment Status
-                        </p>
-
-                        <div class="
-                            mt-2
-                            inline-block
-                            px-4
-                            py-2
-                            rounded-full
-                            bg-green-100
-                            text-green-600
-                        ">
+                        <div class="inline-block rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
                             {{ $transaction->payment_status }}
+                        </div>
+
+                        <div class="inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+                            {{ ucfirst($transaction->transaction_status) }}
                         </div>
 
                     </div>
@@ -102,41 +68,36 @@
                 </div>
 
                 {{-- ITEMS --}}
-                <div class="
-                    mt-8
-                    border-t
-                    pt-6
-                    space-y-4
-                ">
+                <div class="mt-8 space-y-4 rounded-[28px] bg-slate-50 p-6">
 
                     @foreach($transaction->items as $item)
 
-                        <div class="
-                            flex
-                            justify-between
-                        ">
+                        <div class="flex flex-col justify-between gap-4 border-b border-slate-200 pb-4 last:border-b-0 last:pb-0 md:flex-row md:items-center">
 
-                            <div>
+                            <div class="flex items-center gap-4">
 
-                                <p class="
-                                    font-semibold
-                                ">
+                                <img
+                                    src="{{ $item->product->thumbnail ? asset('storage/' . $item->product->thumbnail) : 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop' }}"
+                                    alt="{{ $item->product->name }}"
+                                    class="h-16 w-16 rounded-2xl object-cover"
+                                >
+
+                                <div>
+
+                                <p class="font-semibold text-slate-900">
                                     {{ $item->product->name }}
                                 </p>
 
-                                <p class="
-                                    text-sm
-                                    text-gray-500
-                                ">
+                                <p class="text-sm text-slate-500">
                                     Qty:
-                                    {{ $item->quantity }}
+                                    {{ $item->qty }}
                                 </p>
+
+                                </div>
 
                             </div>
 
-                            <p class="
-                                font-semibold
-                            ">
+                            <p class="font-semibold text-slate-900">
                                 Rp {{ number_format($item->subtotal) }}
                             </p>
 
@@ -147,32 +108,16 @@
                 </div>
 
                 {{-- STATUS UPDATE --}}
-                <div class="
-    mt-8
-    border-t
-    pt-6
-">
+                <div class="mt-8 rounded-[28px] border border-slate-200 bg-white p-6">
 
     {{-- ORDER STATUS BADGE --}}
     <div class="mb-6">
 
-        <p class="
-            text-sm
-            text-gray-500
-            mb-2
-        ">
+        <p class="mb-2 text-sm text-slate-500">
             Order Status
         </p>
 
-        <div class="
-            inline-block
-            px-4
-            py-2
-            rounded-full
-            bg-blue-100
-            text-blue-600
-            font-semibold
-        ">
+        <div class="inline-block rounded-full bg-blue-100 px-4 py-2 font-semibold text-blue-600">
             {{ ucfirst($transaction->transaction_status) }}
         </div>
 
@@ -194,12 +139,7 @@
 
         <select
             name="transaction_status"
-            class="
-                border
-                rounded-xl
-                px-4
-                py-3
-            "
+            class="rounded-2xl border border-slate-200 px-4 py-3 shadow-sm focus:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-100"
         >
 
             <option
@@ -258,15 +198,7 @@
 
         </select>
 
-        <button class="
-            bg-black
-            text-white
-            px-6
-            py-3
-            rounded-2xl
-            hover:opacity-90
-            transition
-        ">
+        <button class="rounded-2xl bg-slate-900 px-6 py-3 font-semibold text-white transition hover:bg-rose-500">
             Update Status
         </button>
 

@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function create(Transaction $transaction)
+    public function create(
+        Transaction $transaction
+    )
     {
+        abort_unless(
+            $transaction->user_id === auth()->id(),
+            403
+        );
+
         return view(
-            'pages.payment',
+            'payments.create',
             compact('transaction')
         );
     }
@@ -21,6 +28,11 @@ class PaymentController extends Controller
         Transaction $transaction
     )
     {
+        abort_unless(
+            $transaction->user_id === auth()->id(),
+            403
+        );
+
         $request->validate([
             'payment_proof' => 'required|image|max:2048',
         ]);
@@ -37,6 +49,11 @@ class PaymentController extends Controller
 
             'payment_proof' => $path,
 
+            'payment_status' => 'pending',
+        ]);
+
+        $transaction->update([
+            'payment_method' => 'bank_transfer',
             'payment_status' => 'pending',
         ]);
 
