@@ -11,11 +11,11 @@
         'resources/js/app.js'
     ])
 </head>
-<body class="bg-white text-gray-800">
+<body class="min-h-screen bg-gradient-to-b from-rose-50 via-white to-slate-50 text-gray-800">
 
     @include('components.navbar')
 
-    <main>
+    <main class="pb-16">
         @yield('content')
     </main>
 
