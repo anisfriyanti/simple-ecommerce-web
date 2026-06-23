@@ -23,4 +23,10 @@ class OrderController extends Controller
             compact('transactions')
         );
     }
+    public function show(Transaction $transaction)
+{
+    $transaction->load(['user', 'items.product']);
+
+    return view('admin.orders.show', compact('transaction'));
+}
 }
