@@ -32,6 +32,8 @@ COPY . .
 
 RUN composer dump-autoload --optimize \
     && npm run build \
+    && ls -la public/build \
+    && ls -la public/build/assets \
     && rm -rf node_modules \
     && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chmod +x start.sh \
