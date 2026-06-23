@@ -2,6 +2,14 @@
 
 @section('content')
 
+    @php
+        $description = $product->description ?? '';
+        $hasLongDescription = \Illuminate\Support\Str::length($description) > 180;
+        $shortDescription = $hasLongDescription
+            ? \Illuminate\Support\Str::limit($description, 180)
+            : $description;
+    @endphp
+
     <div class="mx-auto max-w-7xl px-6 py-16">
 
         <div class="grid items-start gap-16 lg:grid-cols-2">
@@ -39,9 +47,26 @@
                     </span>
                 </div>
 
-                <p class="mt-8 text-lg leading-relaxed text-slate-500">
-                    {{ $product->description }}
-                </p>
+                <div x-data="{ expanded: false }" class="mt-8">
+                    <p class="text-lg leading-relaxed text-slate-500" x-show="!expanded" x-cloak>
+                        {{ $shortDescription }}
+                    </p>
+
+                    <p class="text-lg leading-relaxed text-slate-500" x-show="expanded" x-cloak>
+                        {{ $description }}
+                    </p>
+
+                    @if ($hasLongDescription)
+                        <button
+                            type="button"
+                            @click="expanded = !expanded"
+                            class="mt-3 inline-flex items-center text-sm font-semibold text-rose-500 transition hover:text-rose-600"
+                        >
+                            <span x-show="!expanded" x-cloak>See more</span>
+                            <span x-show="expanded" x-cloak>See less</span>
+                        </button>
+                    @endif
+                </div>
 
                 <div class="mt-10 rounded-[32px] border border-white/70 bg-white/90 p-8 shadow-sm">
 
