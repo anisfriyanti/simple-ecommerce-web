@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Vite::createAssetPathsUsing(
+            static fn (string $path, ?bool $secure = null): string => '/'.ltrim($path, '/')
+        );
+
         \Midtrans\Config::$serverKey =
             config('midtrans.server_key');
 
