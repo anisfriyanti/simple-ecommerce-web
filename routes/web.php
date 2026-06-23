@@ -2,31 +2,19 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
-use App\Models\Product;
+use App\Http\Controllers\MidtransCallbackController;
 use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
-
-    $featuredProducts = Product::where(
-        'is_featured',
-        true
-    )
-    ->latest()
-    ->take(3)
-    ->get();
-
-    return view(
-        'pages.home',
-        compact('featuredProducts')
-    );
-});
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get(
     '/products/{slug}',
@@ -35,11 +23,11 @@ Route::get(
 //callback midtrans
 Route::post(
     '/midtrans/callback',
-    [\App\Http\Controllers\MidtransCallbackController::class, 'handle']
+    [MidtransCallbackController::class, 'handle']
 );
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -119,6 +107,9 @@ Route::get(
     '/orders',
     [\App\Http\Controllers\Admin\OrderController::class, 'index']
 );
+
+Route::get('/orders/{transaction}', [\App\Http\Controllers\Admin\OrderController::class, 'show'])
+    ->name('admin.orders.show');
 
 Route::post(
     '/orders/{transaction}/status',

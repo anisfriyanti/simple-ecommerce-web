@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: ecommerce-app
     working_dir: /var/www
+    command: php-fpm
     volumes:
       - ./:/var/www
 

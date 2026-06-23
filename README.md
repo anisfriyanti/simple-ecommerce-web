@@ -192,6 +192,79 @@ Konfigurasi `docker-compose.yml` saat ini menjalankan:
 - `webserver` → Nginx pada port `8088`
 - `db` → PostgreSQL pada port `5440`
 
+## Deploy ke Railway
+
+Railway dipakai agar aplikasi punya URL public yang bisa menerima webhook Midtrans. Railway akan memakai `Dockerfile` di root project untuk build production image. Local Docker development tetap memakai `docker-compose.yml`; service `app` di Compose menjalankan `php-fpm`, sedangkan Railway menjalankan `start.sh`.
+
+### 1. Buat service Railway
+
+1. Push repository ke GitHub.
+2. Buat project baru di Railway dari repository tersebut.
+3. Tambahkan PostgreSQL service di Railway.
+4. Generate public domain untuk web service Laravel.
+5. Set semua environment variable di service Laravel, bukan di repository.
+
+### 2. Environment variable Railway
+
+Set variable berikut di Railway web service:
+
+```env
+APP_NAME="Simple Ecommerce Web"
+APP_ENV=production
+APP_KEY=base64:your-generated-app-key
+APP_DEBUG=false
+APP_URL=https://your-railway-domain.up.railway.app
+
+DB_CONNECTION=pgsql
+DB_HOST=your-railway-postgres-host
+DB_PORT=your-railway-postgres-port
+DB_DATABASE=your-railway-postgres-database
+DB_USERNAME=your-railway-postgres-username
+DB_PASSWORD=your-railway-postgres-password
+
+FILESYSTEM_DISK=public
+
+MIDTRANS_SERVER_KEY=your_midtrans_server_key
+MIDTRANS_CLIENT_KEY=your_midtrans_client_key
+MIDTRANS_IS_PRODUCTION=false
+```
+
+Untuk membuat `APP_KEY`, jalankan lokal:
+
+```bash
+docker compose exec app php artisan key:generate --show
+```
+
+Railway menyediakan variable PostgreSQL dari database service. Salin nilainya ke variable `DB_*` di web service Laravel. Jangan commit `.env` atau key Midtrans ke repository.
+
+### 3. Start command production
+
+Image production menjalankan `start.sh`, yang akan:
+
+- membersihkan cache Laravel
+- membuat storage link dengan `php artisan storage:link || true`
+- menjalankan migration dengan `php artisan migrate --force`
+- membuat cache config, route, dan view
+- menjalankan Laravel di `0.0.0.0:${PORT}`
+
+Railway menyediakan port runtime lewat environment variable `PORT`.
+
+### 4. Midtrans webhook
+
+Set Payment Notification URL di dashboard Midtrans ke:
+
+```text
+https://your-railway-domain.up.railway.app/midtrans/callback
+```
+
+Endpoint callback harus tetap public:
+
+```text
+POST /midtrans/callback
+```
+
+Route ini tidak memakai middleware `auth`, sehingga Midtrans bisa mengirim callback langsung ke aplikasi Railway.
+
 ## Payment Flow
 
 Project ini memakai **Midtrans Snap** untuk checkout.

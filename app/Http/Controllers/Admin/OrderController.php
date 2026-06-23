@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -23,14 +24,35 @@ class OrderController extends Controller
         );
     }
 
+    public function show(Transaction $transaction)
+    {
+        $transaction->load([
+            'user',
+            'items.product',
+        ]);
+
+        return view(
+            'admin.orders.show',
+            compact('transaction')
+        );
+    }
+
     public function updateStatus(
         Request $request,
         Transaction $transaction
     )
     {
         $request->validate([
-
-            'transaction_status' => 'required'
+            'transaction_status' => [
+                'required',
+                Rule::in([
+                    'pending',
+                    'processing',
+                    'shipped',
+                    'completed',
+                    'cancelled',
+                ]),
+            ],
         ]);
 
         $transaction->update([
