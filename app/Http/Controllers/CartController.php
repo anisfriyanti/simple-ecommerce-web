@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Product;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -61,6 +61,7 @@ class CartController extends Controller
             'Product added to cart.'
         );
     }
+
     public function index()
     {
         $cart = Cart::with([
@@ -75,6 +76,37 @@ class CartController extends Controller
         return view(
             'pages.cart',
             compact('cart')
+        );
+    }
+
+    public function update(Request $request, CartItem $cartItem)
+    {
+        abort_unless(
+            $cartItem->cart && $cartItem->cart->user_id === auth()->id(),
+            403
+        );
+
+        $validated = $request->validate([
+            'qty' => ['required', 'integer', 'min:0'],
+        ]);
+
+        if ($validated['qty'] === 0) {
+            $cartItem->delete();
+
+            return back()->with(
+                'success',
+                'Product removed from cart.'
+            );
+        }
+
+        $cartItem->update([
+            'qty' => $validated['qty'],
+            'subtotal' => $validated['qty'] * $cartItem->price,
+        ]);
+
+        return back()->with(
+            'success',
+            'Cart updated successfully.'
         );
     }
 }

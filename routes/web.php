@@ -32,6 +32,11 @@ Route::get(
     '/products/{slug}',
     [ProductController::class, 'show']
 );
+//callback midtrans
+Route::post(
+    '/midtrans/callback',
+    [\App\Http\Controllers\MidtransCallbackController::class, 'handle']
+);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
