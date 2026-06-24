@@ -22,6 +22,33 @@
 
         @forelse($transactions as $transaction)
 
+            @php
+                $paymentStatus = $transaction->payment_status;
+                $orderStatus = $transaction->transaction_status;
+
+                $statusLabel = match (true) {
+                    $paymentStatus === 'pending' => 'Belum Dibayar',
+                    $paymentStatus === 'paid' && $orderStatus === 'processing' => 'Diproses',
+                    $orderStatus === 'shipped' => 'Dikirim',
+                    $orderStatus === 'completed' => 'Selesai',
+                    $paymentStatus === 'expired' => 'Pembayaran Expired',
+                    $paymentStatus === 'cancelled' || $orderStatus === 'cancelled' => 'Dibatalkan',
+                    $paymentStatus === 'failed' => 'Pembayaran Gagal',
+                    default => 'Menunggu Update',
+                };
+
+                $statusClasses = match ($statusLabel) {
+                    'Belum Dibayar' => 'bg-yellow-100 text-yellow-700',
+                    'Diproses' => 'bg-blue-100 text-blue-700',
+                    'Dikirim' => 'bg-indigo-100 text-indigo-700',
+                    'Selesai' => 'bg-green-100 text-green-700',
+                    'Pembayaran Expired' => 'bg-slate-100 text-slate-700',
+                    'Dibatalkan' => 'bg-red-100 text-red-700',
+                    'Pembayaran Gagal' => 'bg-red-100 text-red-700',
+                    default => 'bg-slate-100 text-slate-700',
+                };
+            @endphp
+
             <div class="mb-8 rounded-[32px] border border-white/70 bg-white p-8 shadow-sm">
 
                 <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -40,12 +67,8 @@
 
                     <div class="flex flex-wrap gap-3 text-right">
 
-                        <span class="rounded-full bg-yellow-100 px-4 py-2 text-sm font-semibold text-yellow-700">
-                            {{ $transaction->payment_status }}
-                        </span>
-
-                        <span class="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-                            {{ ucfirst($transaction->transaction_status) }}
+                        <span class="rounded-full px-4 py-2 text-sm font-semibold {{ $statusClasses }}">
+                            {{ $statusLabel }}
                         </span>
 
                     </div>
@@ -100,17 +123,11 @@
                         Rp {{ number_format($transaction->grand_total) }}
                     </strong>
 
-                    @if($transaction->payment_status !== 'paid')
+                    @if($transaction->payment_status === 'pending')
 
                             <a href="/payments/{{ $transaction->id }}" class="rounded-2xl bg-slate-900 px-6 py-3 font-semibold text-white transition hover:bg-rose-500">
                                 Pay Now
                             </a>
-
-                    @else
-
-                                <span class="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
-                                    Paid
-                                </span>
 
                     @endif
 
