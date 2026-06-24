@@ -22,6 +22,15 @@ Simple Ecommerce Web adalah aplikasi e-commerce sederhana berbasis **Laravel**, 
 - Approve pembayaran
 - Update status order
 
+## Demo Login
+
+Akun demo dibuat otomatis oleh `DemoUserSeeder`:
+
+```text
+Admin: admin@example.com / password
+User: user@example.com / password
+```
+
 ## Arsitektur Singkat
 
 Project ini menggunakan pola **Laravel MVC** dengan arsitektur server-rendered:
@@ -244,6 +253,7 @@ Image production menjalankan `start.sh`, yang akan:
 - membersihkan cache Laravel
 - membuat storage link dengan `php artisan storage:link || true`
 - menjalankan migration dengan `php artisan migrate --force`
+- memastikan akun demo tersedia dengan `php artisan db:seed --class=DemoUserSeeder --force`
 - membuat cache config, route, dan view
 - menjalankan Laravel di `0.0.0.0:${PORT}`
 

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
          $this->call([
+            DemoUserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
         ]);

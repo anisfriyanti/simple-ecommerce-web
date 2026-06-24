@@ -60,7 +60,7 @@
             </div>
 
             <div class="flex flex-col gap-1 rounded-xl bg-white/80 p-3">
-                <span class="font-semibold text-slate-900">User demo jika tersedia</span>
+                <span class="font-semibold text-slate-900">User</span>
                 <span>user@example.com / password</span>
             </div>
         </div>
