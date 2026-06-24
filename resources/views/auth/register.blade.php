@@ -49,4 +49,20 @@
             </x-primary-button>
         </div>
     </form>
+
+    <div class="mt-6 rounded-2xl border border-rose-100 bg-rose-50/70 p-4 text-sm text-slate-700">
+        <p class="font-bold text-slate-900">Demo credentials</p>
+
+        <div class="mt-3 space-y-2">
+            <div class="flex flex-col gap-1 rounded-xl bg-white/80 p-3">
+                <span class="font-semibold text-slate-900">Admin</span>
+                <span>admin@example.com / password</span>
+            </div>
+
+            <div class="flex flex-col gap-1 rounded-xl bg-white/80 p-3">
+                <span class="font-semibold text-slate-900">User demo jika tersedia</span>
+                <span>user@example.com / password</span>
+            </div>
+        </div>
+    </div>
 </x-guest-layout>
