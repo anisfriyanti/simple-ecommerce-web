@@ -11,19 +11,19 @@
         <div>
 
             <span class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/90 px-4 py-2 text-sm font-semibold text-rose-500 shadow-sm">
-                Laravel ecommerce demo
+                Beauty • Skincare • Daily Glow
             </span>
 
             <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-7xl">
-                Beauty store with
+                Glow essentials for
                 <span class="bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">
-                    real checkout
+                    your routine
                 </span>
             </h1>
 
             <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-                A polished demo storefront with cart, checkout, Midtrans Snap payment,
-                webhook status updates, and admin order monitoring.
+                Temukan pilihan skincare dan beauty essentials untuk tampilan
+                kulit yang lebih segar, sehat, dan percaya diri setiap hari.
             </p>
 
             <div class="mt-10 flex flex-wrap gap-4">
@@ -32,30 +32,30 @@
                     href="/products"
                     class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 font-semibold text-white shadow-xl shadow-slate-200 transition hover:-translate-y-1 hover:bg-rose-500"
                 >
-                    Browse Products
+                    Shop Products
                 </a>
 
                 <a
-                    href="/orders"
+                    href="/products"
                     class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-8 py-4 font-semibold text-slate-700 shadow-sm transition hover:-translate-y-1 hover:border-rose-200 hover:text-rose-500"
                 >
-                    View Order Flow
+                    Explore Collection
                 </a>
 
             </div>
 
             <div class="mt-12 grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">
                 <div class="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm backdrop-blur">
-                    <p class="text-3xl font-black text-slate-900">Snap</p>
-                    <p class="mt-1 text-sm text-slate-500">Midtrans payment</p>
+                    <p class="text-3xl font-black text-slate-900">Fresh</p>
+                    <p class="mt-1 text-sm text-slate-500">Daily skincare picks</p>
                 </div>
                 <div class="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm backdrop-blur">
-                    <p class="text-3xl font-black text-slate-900">Admin</p>
-                    <p class="mt-1 text-sm text-slate-500">Order tracking</p>
+                    <p class="text-3xl font-black text-slate-900">Glow</p>
+                    <p class="mt-1 text-sm text-slate-500">Beauty favorites</p>
                 </div>
                 <div class="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm backdrop-blur">
-                    <p class="text-3xl font-black text-slate-900">Docker</p>
-                    <p class="mt-1 text-sm text-slate-500">Deploy ready</p>
+                    <p class="text-3xl font-black text-slate-900">Care</p>
+                    <p class="mt-1 text-sm text-slate-500">Self-care essentials</p>
                 </div>
             </div>
 
@@ -75,9 +75,9 @@
                 >
 
                 <div class="absolute inset-x-6 bottom-6 rounded-3xl bg-white/90 px-6 py-4 shadow-xl backdrop-blur sm:inset-x-auto sm:left-10 sm:right-10">
-                    <p class="text-sm font-semibold text-rose-500">Portfolio Demo</p>
-                    <h3 class="mt-1 text-xl font-bold text-slate-900">Checkout to admin workflow</h3>
-                    <p class="mt-1 text-sm text-slate-500">Built for clear ecommerce storytelling.</p>
+                    <p class="text-sm font-semibold text-rose-500">New Arrival</p>
+                    <h3 class="mt-1 text-xl font-bold text-slate-900">Glow Ritual Collection</h3>
+                    <p class="mt-1 text-sm text-slate-500">Serum, moisturizer, and everyday beauty care.</p>
                 </div>
 
             </div>
@@ -105,7 +105,7 @@
             </h2>
 
             <p class="mt-4 text-slate-500">
-                Clean cards, clear pricing, and direct product CTAs.
+                Produk pilihan untuk rutinitas beauty dan self-care harian.
             </p>
 
         </div>
