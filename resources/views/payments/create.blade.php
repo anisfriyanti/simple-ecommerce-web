@@ -4,6 +4,8 @@
 
 <div class="mx-auto max-w-5xl px-6 py-20">
 
+    <x-payment-maintenance-notice class="mb-8" />
+
     <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
 
         <div class="rounded-[36px] border border-white/70 bg-white p-10 shadow-[0_24px_60px_rgba(15,23,42,0.1)] text-center lg:text-left">
@@ -51,7 +53,7 @@
                 </div>
                 <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
                     <p class="font-semibold text-white">Instant confirmation flow</p>
-                    <p class="mt-2">Setelah proses selesai, Anda akan langsung kembali ke halaman order.</p>
+                    <p class="mt-2">Setelah proses selesai, Anda akan kembali ke halaman order. Status pembayaran bisa membutuhkan waktu untuk update.</p>
                 </div>
                 <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
                     <p class="font-semibold text-white">Invoice reference</p>

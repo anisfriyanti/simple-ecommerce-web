@@ -151,6 +151,8 @@
 
                 </form>
 
+                <x-payment-maintenance-notice class="mt-5" />
+
                 <p class="mt-4 text-center text-sm text-slate-500">Pembayaran diproses aman melalui sistem checkout Anda.</p>
 
             </div>

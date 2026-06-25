@@ -27,6 +27,8 @@
             </div>
         </div>
 
+        <x-payment-maintenance-notice class="mb-8" />
+
         @forelse($transactions as $transaction)
 
             @php
