@@ -42,6 +42,7 @@
 
                 @php
                     $grandTotal += $item->subtotal;
+                    $availableStock = $item->product?->stock ?? 0;
                 @endphp
 
                 <div class="flex flex-col justify-between gap-6 rounded-[32px] border border-white/70 bg-white p-6 shadow-sm md:flex-row md:items-center">
@@ -69,6 +70,10 @@
                             Rp {{ number_format($item->price) }} / item
                         </p>
 
+                        <p class="mt-1 text-sm font-semibold {{ $availableStock > 0 ? 'text-emerald-600' : 'text-red-500' }}">
+                            {{ $availableStock > 0 ? 'Stock tersedia: ' . $availableStock : 'Out of Stock' }}
+                        </p>
+
                         </div>
 
                     </div>
@@ -90,6 +95,7 @@
                                 type="number"
                                 name="qty"
                                 min="0"
+                                max="{{ $availableStock }}"
                                 value="{{ $item->qty }}"
                                 class="w-20 rounded-2xl border border-slate-200 px-3 py-2 text-center shadow-sm focus:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-100"
                             >
@@ -102,6 +108,12 @@
                         <p class="text-sm text-slate-500">
                             Isi 0 untuk menghapus produk dari cart.
                         </p>
+
+                        @if($item->qty > $availableStock)
+                            <p class="text-sm font-semibold text-red-500">
+                                Qty di cart melebihi stock terbaru. Kurangi qty sebelum checkout.
+                            </p>
+                        @endif
 
                     </div>
 

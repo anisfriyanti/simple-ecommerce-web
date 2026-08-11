@@ -57,17 +57,25 @@
 
         @foreach($products as $product)
 
+            @php
+                $isAvailable = $product->stock > 0;
+            @endphp
+
             <a
                 href="/products/{{ $product->slug }}"
                 class="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/70 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]"
             >
 
-                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
                     <img
                         src="{{ $product->thumbnail ? asset('storage/' . $product->thumbnail) : 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop' }}"
                         alt="{{ $product->name }}"
                         class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     >
+
+                    <span class="absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-bold shadow-sm {{ $isAvailable ? 'bg-white/90 text-emerald-600' : 'bg-slate-900/90 text-white' }}">
+                        {{ $isAvailable ? 'Stock ' . $product->stock : 'Out of Stock' }}
+                    </span>
                 </div>
 
                 <div class="flex flex-1 flex-col p-6">
@@ -82,6 +90,10 @@
 
                     <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">
                         {{ $product->description }}
+                    </p>
+
+                    <p class="mt-4 text-sm font-semibold {{ $isAvailable ? 'text-emerald-600' : 'text-red-500' }}">
+                        {{ $isAvailable ? 'Available now' : 'Currently unavailable' }}
                     </p>
 
                     <div class="mt-auto flex items-end justify-between gap-4 pt-6">
