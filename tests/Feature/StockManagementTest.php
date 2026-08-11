@@ -33,7 +33,7 @@ class StockManagementTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->from('/cart')
-            ->post('/checkout');
+            ->post('/checkout', $this->validShippingAddress());
 
         $response
             ->assertRedirect('/cart')
@@ -218,5 +218,19 @@ class StockManagementTest extends TestCase
         );
 
         return $payload;
+    }
+
+    private function validShippingAddress(array $overrides = []): array
+    {
+        return array_merge([
+            'recipient_name' => 'Demo User',
+            'recipient_phone' => '081234567890',
+            'address_line' => 'Jl. Mawar No. 10',
+            'province' => 'DKI Jakarta',
+            'city' => 'Jakarta Selatan',
+            'district' => 'Kebayoran Baru',
+            'postal_code' => '12110',
+            'shipping_cost' => 0,
+        ], $overrides);
     }
 }

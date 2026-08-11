@@ -36,6 +36,7 @@
 
             @php
                 $grandTotal = 0;
+                $shippingCost = $shippingCost ?? 0;
             @endphp
 
             @foreach($cart->items as $item)
@@ -138,30 +139,23 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span>Shipping</span>
-                        <span>Free</span>
+                        <span>{{ $shippingCost > 0 ? 'Rp ' . number_format($shippingCost) : 'Calculated at checkout' }}</span>
                     </div>
                 </div>
 
                 <div class="mt-6 rounded-3xl bg-slate-900 px-6 py-5 text-white">
                     <p class="text-sm text-slate-300">Total Payment</p>
                     <h2 class="mt-2 text-3xl font-black">
-                        Rp {{ number_format($grandTotal) }}
+                        Rp {{ number_format($grandTotal + $shippingCost) }}
                     </h2>
                 </div>
 
-               <form
-                    action="/checkout"
-                    method="POST"
-                    class="mt-6"
+                <a
+                    href="/checkout"
+                    class="mt-6 inline-flex w-full justify-center rounded-2xl bg-rose-500 px-8 py-4 font-semibold text-white shadow-xl shadow-rose-200 transition hover:-translate-y-1 hover:bg-rose-600"
                 >
-
-                    @csrf
-
-                    <button class="w-full rounded-2xl bg-rose-500 px-8 py-4 font-semibold text-white shadow-xl shadow-rose-200 transition hover:-translate-y-1 hover:bg-rose-600">
-                        Checkout Securely
-                    </button>
-
-                </form>
+                    Checkout Securely
+                </a>
 
                 <x-payment-maintenance-notice class="mt-5" />
 

@@ -50,6 +50,11 @@ Route::middleware('auth')->group(function () {
         [CartController::class, 'update']
     );
  //checkout routes
+     Route::get(
+        '/checkout',
+        [CheckoutController::class, 'create']
+    );
+
      Route::post(
         '/checkout',
         [CheckoutController::class, 'store']

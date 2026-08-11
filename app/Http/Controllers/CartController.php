@@ -86,9 +86,14 @@ class CartController extends Controller
             )
             ->first();
 
+        $shippingCost = max(0, (int) config('shipping.placeholder_cost', 0));
+
         return view(
             'pages.cart',
-            compact('cart')
+            compact(
+                'cart',
+                'shippingCost'
+            )
         );
     }
 

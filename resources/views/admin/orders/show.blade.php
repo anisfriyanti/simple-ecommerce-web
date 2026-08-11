@@ -82,9 +82,32 @@
                 <p><span class="font-semibold text-slate-500">Invoice:</span> {{ $transaction->invoice_number }}</p>
                 <p><span class="font-semibold text-slate-500">Customer:</span> {{ $transaction->user->name ?? '-' }}</p>
                 <p><span class="font-semibold text-slate-500">Email:</span> {{ $transaction->user->email ?? '-' }}</p>
+                <p><span class="font-semibold text-slate-500">Subtotal:</span> Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</p>
+                <p><span class="font-semibold text-slate-500">Shipping:</span> Rp {{ number_format($transaction->shipping_cost ?? 0, 0, ',', '.') }}</p>
                 <p><span class="font-semibold text-slate-500">Total:</span> Rp {{ number_format($transaction->grand_total, 0, ',', '.') }}</p>
             </div>
         </div>
+
+        @if($transaction->recipient_name)
+            <div class="mb-6 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-bold text-slate-900">
+                    Shipping Address
+                </h2>
+
+                <div class="grid gap-4 md:grid-cols-2">
+                    <p><span class="font-semibold text-slate-500">Recipient:</span> {{ $transaction->recipient_name }}</p>
+                    <p><span class="font-semibold text-slate-500">Phone:</span> {{ $transaction->recipient_phone }}</p>
+                    <p class="md:col-span-2"><span class="font-semibold text-slate-500">Address:</span> {{ $transaction->address_line }}</p>
+                    <p><span class="font-semibold text-slate-500">Province:</span> {{ $transaction->province }}</p>
+                    <p><span class="font-semibold text-slate-500">City:</span> {{ $transaction->city }}</p>
+                    <p><span class="font-semibold text-slate-500">District:</span> {{ $transaction->district }}</p>
+                    <p><span class="font-semibold text-slate-500">Postal Code:</span> {{ $transaction->postal_code }}</p>
+                    <p><span class="font-semibold text-slate-500">Courier:</span> {{ $transaction->courier ?? '-' }}</p>
+                    <p><span class="font-semibold text-slate-500">Service:</span> {{ $transaction->shipping_service ?? '-' }}</p>
+                    <p><span class="font-semibold text-slate-500">ETD:</span> {{ $transaction->shipping_etd ?? '-' }}</p>
+                </div>
+            </div>
+        @endif
 
         <div class="mb-6 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
             <h2 class="mb-4 text-lg font-bold text-slate-900">
