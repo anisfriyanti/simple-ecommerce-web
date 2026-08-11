@@ -128,12 +128,48 @@
 
                 </div>
 
+                @if($transaction->recipient_name)
+                    <div class="mt-6 rounded-[28px] border border-slate-100 bg-white p-5 shadow-sm">
+                        <div class="flex flex-col gap-4 lg:flex-row lg:justify-between">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Alamat pengiriman</p>
+                                <p class="mt-2 font-semibold text-slate-900">
+                                    {{ $transaction->recipient_name }} · {{ $transaction->recipient_phone }}
+                                </p>
+                                <p class="mt-1 text-sm leading-6 text-slate-500">
+                                    {{ $transaction->address_line }},
+                                    {{ $transaction->district }},
+                                    {{ $transaction->city }},
+                                    {{ $transaction->province }}
+                                    {{ $transaction->postal_code }}
+                                </p>
+                            </div>
+
+                            <div class="shrink-0 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500">
+                                <p class="font-semibold text-slate-900">Shipping</p>
+                                <p class="mt-1">
+                                    {{ $transaction->courier ? strtoupper($transaction->courier) : 'Kurir belum dipilih' }}
+                                    {{ $transaction->shipping_service ? ' · ' . $transaction->shipping_service : '' }}
+                                </p>
+                                <p class="mt-1">Rp {{ number_format($transaction->shipping_cost ?? 0) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
-                    <strong class="text-2xl font-black text-slate-900">
-                        Total:
-                        Rp {{ number_format($transaction->grand_total) }}
-                    </strong>
+                    <div>
+                        <p class="text-sm text-slate-500">
+                            Subtotal: Rp {{ number_format($transaction->subtotal) }}
+                            · Shipping: Rp {{ number_format($transaction->shipping_cost ?? 0) }}
+                        </p>
+
+                        <strong class="mt-1 block text-2xl font-black text-slate-900">
+                            Total:
+                            Rp {{ number_format($transaction->grand_total) }}
+                        </strong>
+                    </div>
 
                     @if($transaction->payment_status === 'pending')
 
