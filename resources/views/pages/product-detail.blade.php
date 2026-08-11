@@ -8,6 +8,7 @@
         $shortDescription = $hasLongDescription
             ? \Illuminate\Support\Str::limit($description, 180)
             : $description;
+        $isAvailable = $product->stock > 0;
     @endphp
 
     <div class="mx-auto max-w-7xl px-6 py-16">
@@ -39,8 +40,8 @@
                 </h1>
 
                 <div class="mt-6 flex flex-wrap gap-3">
-                    <span class="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-600">
-                        Stock {{ $product->stock }}
+                    <span class="rounded-full border px-4 py-2 text-sm font-semibold {{ $isAvailable ? 'border-emerald-200 bg-emerald-50 text-emerald-600' : 'border-red-200 bg-red-50 text-red-600' }}">
+                        {{ $isAvailable ? 'Stock ' . $product->stock : 'Out of Stock' }}
                     </span>
                     <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600">
                         SKU {{ $product->sku }}
@@ -85,8 +86,11 @@
 
                         @csrf
 
-                        <button class="rounded-2xl bg-slate-900 px-8 py-4 text-white shadow-xl shadow-slate-200 transition hover:-translate-y-1 hover:bg-rose-500">
-                            Add to Cart
+                        <button
+                            class="rounded-2xl px-8 py-4 text-white shadow-xl shadow-slate-200 transition {{ $isAvailable ? 'bg-slate-900 hover:-translate-y-1 hover:bg-rose-500' : 'cursor-not-allowed bg-slate-300' }}"
+                            @disabled(! $isAvailable)
+                        >
+                            {{ $isAvailable ? 'Add to Cart' : 'Out of Stock' }}
                         </button>
 
                     </form>
@@ -101,7 +105,9 @@
 
                     <div class="rounded-3xl border border-white/70 bg-white p-5 shadow-sm">
                         <p class="text-sm text-slate-400">Availability</p>
-                        <p class="mt-2 text-lg font-bold text-slate-900">Ready Stock</p>
+                        <p class="mt-2 text-lg font-bold {{ $isAvailable ? 'text-emerald-600' : 'text-red-500' }}">
+                            {{ $isAvailable ? 'Ready Stock' : 'Out of Stock' }}
+                        </p>
                     </div>
 
                     <div class="rounded-3xl border border-white/70 bg-white p-5 shadow-sm">

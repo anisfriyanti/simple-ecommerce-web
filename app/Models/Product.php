@@ -25,6 +25,13 @@ class Product extends Model
     'meta_title',
     'meta_description',
 ];
+
+protected $casts = [
+    'stock' => 'integer',
+    'is_active' => 'boolean',
+    'is_featured' => 'boolean',
+];
+
 public function category()
 {
     return $this->belongsTo(Category::class);

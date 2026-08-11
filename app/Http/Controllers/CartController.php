@@ -11,6 +11,13 @@ class CartController extends Controller
 {
     public function add(Product $product)
     {
+        if ($product->stock <= 0) {
+            return back()->with(
+                'error',
+                $product->name . ' is currently out of stock.'
+            );
+        }
+
         $user = auth()->user();
 
         // CREATE CART IF NOT EXISTS
@@ -31,6 +38,12 @@ class CartController extends Controller
 
         // IF ITEM EXISTS
         if ($cartItem) {
+            if ($cartItem->qty + 1 > $product->stock) {
+                return back()->with(
+                    'error',
+                    'Only ' . $product->stock . ' item(s) left for ' . $product->name . '.'
+                );
+            }
 
             $cartItem->qty += 1;
 
@@ -90,12 +103,28 @@ class CartController extends Controller
             'qty' => ['required', 'integer', 'min:0'],
         ]);
 
+        $cartItem->loadMissing('product');
+
         if ($validated['qty'] === 0) {
             $cartItem->delete();
 
             return back()->with(
                 'success',
                 'Product removed from cart.'
+            );
+        }
+
+        if (! $cartItem->product || $cartItem->product->stock <= 0) {
+            return back()->with(
+                'error',
+                'This product is currently out of stock.'
+            );
+        }
+
+        if ($validated['qty'] > $cartItem->product->stock) {
+            return back()->with(
+                'error',
+                'Only ' . $cartItem->product->stock . ' item(s) left for ' . $cartItem->product->name . '.'
             );
         }
 

@@ -25,6 +25,13 @@ class CheckoutController extends Controller
             );
         }
 
+        if ($stockError = $this->stockValidationError($cart)) {
+            return back()->with(
+                'error',
+                $stockError
+            );
+        }
+
         $subtotal = $cart->items->sum('subtotal');
 
         $transaction = DB::transaction(function () use ($user, $cart, $subtotal) {
@@ -77,5 +84,24 @@ class CheckoutController extends Controller
         });
 
         return redirect('/payments/' . $transaction->id);
+    }
+
+    private function stockValidationError(Cart $cart): ?string
+    {
+        foreach ($cart->items as $item) {
+            if (! $item->product) {
+                return 'One of the products in your cart is no longer available.';
+            }
+
+            if ($item->product->stock <= 0) {
+                return $item->product->name . ' is currently out of stock.';
+            }
+
+            if ($item->qty > $item->product->stock) {
+                return 'Only ' . $item->product->stock . ' item(s) left for ' . $item->product->name . '. Please update your cart.';
+            }
+        }
+
+        return null;
     }
 }
